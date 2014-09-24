@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: PMPro Media
-Version: .1
+Version: .1.1
 Plugin URI: http://www.paidmembershipspro.com/wp/pmpro-media/
 Description: Protect media files with Paid Memberships Pro.
 Author: strangerstudios

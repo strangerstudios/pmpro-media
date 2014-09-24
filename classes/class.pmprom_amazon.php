@@ -22,7 +22,8 @@ class PMProMediaAmazon {
 	//init
 	static function init() {		
 		//hooks/filters
-		add_filter('pmpro_media_filters', array('PMProMediaAmazon', 'pmpro_media_filters'));		
+		add_filter('pmpro_media_filters', array('PMProMediaAmazon', 'pmpro_media_filters'));
+		add_filter('pmpro_media_getmedia_url', array('PMProMediaAmazon', 'pmpro_media_getmedia_url'));
 	}
 	
 	//add our filter to the list
@@ -41,10 +42,10 @@ class PMProMediaAmazon {
 		$url_pattern = "/(https?\:\/\/s3\.amazonaws\.com\/" . PMPRORM_S3_BUCKET . "\/[^\'\"]*)/";
 				
 		//look for media
-		$matched = preg_match($url_pattern, $buffer, $matches);
-						
+		$matched = preg_match($url_pattern, $buffer, $matches);								
+		
 		if(!empty($matched))
-		{
+		{		
 			global $wpdb;
 			
 			$replacements = array();
@@ -57,7 +58,7 @@ class PMProMediaAmazon {
 				//look for media
 				$sqlQuery = "SELECT ID FROM $wpdb->posts WHERE post_type='attachment' AND guid = '" . esc_sql($match) . "' LIMIT 1";				
 				$media_id = $wpdb->get_var($sqlQuery);
-				
+								
 				//get the extension used and figure out the filename to use
 				$parts = explode(".", basename($match));
 				if(is_array($parts) && !empty($parts[1]))
@@ -88,6 +89,17 @@ class PMProMediaAmazon {
 		}
 		
 		return $buffer;
+	}
+	
+	//swap amazon URLs for protected URLs when getting media
+	static function pmpro_media_getmedia_url($url)
+	{		
+		if(strpos($url, "s3.amazonaws.com") !== false)
+		{			
+			$url = PMProMediaAmazon::getTemporaryLink(PMPRORM_S3_ACCESS_KEY, PMPRORM_S3_SECRET_KEY, PMPRORM_S3_BUCKET, basename($url));		
+		}
+			
+		return $url;
 	}
 	
 	/**

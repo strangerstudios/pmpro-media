@@ -57,7 +57,7 @@ class PMProMedia {
 	static function wp_ajax_getmedia()
 	{
 		$media_id = intval($_REQUEST['media_id']);
-		
+				
 		//make sure media id is passed
 		if(empty($media_id))
 			die("No media_id specified.");
@@ -81,8 +81,10 @@ class PMProMedia {
 			}
 		}
 		
-		//redirect
-		wp_redirect($media->guid);
+		//redirect		
+		$url = apply_filters('pmpro_media_getmedia_url', $media->guid, $media);		
+		
+		wp_redirect($url);
 		exit;			
 	}
 

@@ -3,7 +3,7 @@ Contributors: strangerstudios
 Tags: video, audio, amazon s3, s3, jwplayer, media, pmpro, protect, downloads, post
 Requires at least: 3.5
 Tested up to: 4.0
-Stable tag: .1
+Stable tag: .1.1
 
 Protect media files with Paid Memberships Pro.
 
@@ -18,5 +18,8 @@ PMpro Media uses some thoughts and code borrowed from the TYT Premium Media plug
 PMPro Media uses some GPL code from the s2member plugin. (includes/s2functions.php).
 
 == Changelog ==
+= .1.1 =
+* Added pmpro_media_getmedia_url and using it in the Amazon class to swap the full video URL for a temporary URL using API keys/etc.
+
 = .1 =
 * Initial committ.
